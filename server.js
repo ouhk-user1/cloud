@@ -111,7 +111,7 @@ app.get('/:attrib/:attrib_value', function(req,res) {
 				res.status(200).json(results);
 			}
 			else {
-				res.status(200).json({message: 'No matching document', id: req.params.attrib_value});
+				res.status(200).json({message: 'No matching document', restaurant_id: req.params.attrib_value});
 			}
 			db.close();
     	});
@@ -163,10 +163,12 @@ app.put('/:attrib/:attrib_value/:attrib1',function(req,res) {
 		Restaurant.find(criteria, function(err,results) {
 		for(i=0 ; i < results.length ; i++){
 		
+		if (req.body.date != null || req.body.grade != null || req.body.score != null){
+		results[i].grades = {};
 		if(req.body.date != null) results[i].grades[i].date = req.body.date;
 		if(req.body.grade != null) results[i].grades[i].grade = req.body.grade;	
                 if(req.body.score != null) results[i].grades[i].score = req.body.score;
-
+		}
 		if(req.body.building != null) results[i].address.building = req.body.building;
 		if(req.body.street != null) results[i].address.street = req.body.street;
 		if(req.body.zipcode != null) results[i].address.zipcode = req.body.zipcode;
@@ -212,8 +214,8 @@ app.put('/:attrib/:attrib_value/:attrib1',function(req,res) {
 		//var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 		
 		//console.log(r);
-		Restaurant.update({restaurant_id: req.params.attrib_value}, {$set:results[0]}, function(err){
-		//results[i].save(function(err) {
+		//Restaurant.update({restaurant_id: req.params.attrib_value}, {$set:results[0]}, function(err){
+		results[i].save(function(err) {
        		if (err) {
 				res.status(500).json(err);
 				throw err
