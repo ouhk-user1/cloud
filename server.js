@@ -47,6 +47,7 @@ app.post('/',function(req,res) {
 /*--------------------------------------------------------------------------------------------*/
 app.delete('/:attrib/:attrib_value',function(req,res) {
 	var criteria = {};
+	var abc = req.params.attrib;
 	criteria[req.params.attrib] = req.params.attrib_value;
 	var restaurantSchema = require('./models/restaurant');
 	mongoose.connect('mongodb://tester:123456@ds052968.mongolab.com:52968/oucloud01');
@@ -61,12 +62,15 @@ app.delete('/:attrib/:attrib_value',function(req,res) {
 			}
        		//console.log('Restaurant removed!')
        		db.close();
-			res.status(200).json({message: 'delete done', id: req.params.attrib_value});
+			var msg = {};
+			msg.message = 'delete done';
+			msg[req.params.attrib] = req.params.attrib_value
+			res.status(200).json(msg);
     	});
     });
 });
 app.delete('/:attrib/:attrib_value/:attrib1/:attrib_value1',function(req,res) {
-	var criteria = {};
+	var criteria = {};var abc = req.params.attrib;
 	criteria[req.params.attrib] = req.params.attrib_value;
 	criteria[req.params.attrib1] = req.params.attrib_value1;	
 
@@ -83,7 +87,10 @@ app.delete('/:attrib/:attrib_value/:attrib1/:attrib_value1',function(req,res) {
 			}
        		//console.log('Restaurant removed!')
        		db.close();
-			res.status(200).json({message: 'delete done', id: req.params.attrib_value});
+			var msg = {};
+			msg.message = 'delete done';
+			msg[req.params.attrib] = req.params.attrib_value
+			res.status(200).json(msg);
     	});
     });
 });
@@ -92,7 +99,7 @@ app.delete('/:attrib/:attrib_value/:attrib1/:attrib_value1',function(req,res) {
 
 app.get('/:attrib/:attrib_value', function(req,res) {
 
-	var criteria = {};
+	var criteria = {};var abc = req.params.attrib;
 
 	criteria[req.params.attrib] = req.params.attrib_value;
 
@@ -111,7 +118,10 @@ app.get('/:attrib/:attrib_value', function(req,res) {
 				res.status(200).json(results);
 			}
 			else {
-				res.status(200).json({message: 'No matching document', restaurant_id: req.params.attrib_value});
+				var msg = {};
+				msg.message = 'No matching document';
+				msg[req.params.attrib] = req.params.attrib_value
+				res.status(200).json(msg);
 			}
 			db.close();
     	});
@@ -119,7 +129,7 @@ app.get('/:attrib/:attrib_value', function(req,res) {
 });
 app.get('/:attrib/:attrib_value/:attrib1/:attrib_value1', function(req,res) {
 
-	var criteria = {};
+	var criteria = {};var abc = req.params.attrib;
 	criteria[req.params.attrib] = req.params.attrib_value;
 	criteria[req.params.attrib1] = req.params.attrib_value1;
 
@@ -138,7 +148,10 @@ app.get('/:attrib/:attrib_value/:attrib1/:attrib_value1', function(req,res) {
 				res.status(200).json(results);
 			}
 			else {
-				res.status(200).json({message: 'No matching document', id: req.params.attrib_value});
+				var msg = {};
+				msg.message = 'No matching document';
+				msg[req.params.attrib] = req.params.attrib_value
+				res.status(200).json(msg);
 			}
 			db.close();
     	});
